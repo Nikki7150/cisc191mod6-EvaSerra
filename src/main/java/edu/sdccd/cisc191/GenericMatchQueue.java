@@ -8,23 +8,32 @@ public class GenericMatchQueue<T> {
 
     public void enqueue(T item) {
         // TODO: add the item to the back of the queue
+        items.addLast(item);
     }
 
     public T dequeue() {
         // TODO: remove and return the front item
-        // throw IllegalStateException if the queue is empty
-        return null;
+        if (items.isEmpty()){ // throw IllegalStateException if the queue is empty
+            throw new IllegalStateException("List can't be empty");
+        } else {
+            T item = items.getFirst();
+            items.removeFirst();
+            return item;
+        }
     }
 
     public T peek() {
-        // TODO: return the front item without removing it
-        // throw IllegalStateException if the queue is empty
-        return null;
+        if (items.isEmpty()){ // throw IllegalStateException if the queue is empty
+            throw new IllegalStateException("List can't be empty");
+        } else {
+            return items.getFirst();
+        }
     }
 
     public boolean isEmpty() {
         // TODO: return true when the queue has no items
-        return false;
+
+        return items.isEmpty();
     }
 
     public int size() {
