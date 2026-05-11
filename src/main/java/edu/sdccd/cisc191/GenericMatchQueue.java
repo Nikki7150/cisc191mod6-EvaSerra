@@ -15,19 +15,24 @@ public class GenericMatchQueue<T> {
         // TODO: remove and return the front item
         if (items.isEmpty()){ // throw IllegalStateException if the queue is empty
             throw new IllegalStateException("List can't be empty");
-        } else {
+        } /*else {
             T item = items.getFirst();
             items.removeFirst();
             return item;
-        }
+        }*/
+        // this else is not really needed because the program will directly go to this line if false
+        return items.removeFirst();
     }
 
     public T peek() {
         if (items.isEmpty()){ // throw IllegalStateException if the queue is empty
             throw new IllegalStateException("List can't be empty");
-        } else {
+        } /*else {
             return items.getFirst();
-        }
+        }*/
+        
+        return items.getFirst();
+        // same thing here. else is not needed.
     }
 
     public boolean isEmpty() {

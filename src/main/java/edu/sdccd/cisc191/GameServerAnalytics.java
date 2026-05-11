@@ -14,6 +14,8 @@ public class GameServerAnalytics {
                 .map(PlayerAccount :: username) //Add them by name
                 .toList(); //Make it a list
         return topPlayers;
+        // instead of saving the player.stream() into a variable, you can just put it directly in the return statement
+        // they give the same output but just using the return statement makes it easier to read and is much shorter
     }
 
     public static Map<String, Double> averageRatingByRegion(Collection<PlayerAccount> players) {
@@ -54,7 +56,7 @@ public class GameServerAnalytics {
         // TODO: use a Map + collection logic or a stream-based approach
 
         //Map of the matches for playerTwo
-        Map<String, List<String>> matchSum1 = matches.stream()
+        /*Map<String, List<String>> matchSum1 = matches.stream()
                 .collect(
                         Collectors.groupingBy( match -> match.playerOne().username(),
                         Collectors.mapping(MatchRecord::summary,
@@ -80,7 +82,24 @@ public class GameServerAnalytics {
                         }
                 ));
 
-        return mergedMap;
+        return mergedMap;*/
+        // you don't have to create two maps and merge them
+        // instead, you can use a HashMap that can store two maps an array list
+
+        Map<String, List<String>> summariesByPlayer = new HashMap<>();
+
+        for  (MatchRecord match : matches) {
+            summariesByPlayer
+                    .computeIfAbsent(match.playerOne().username(), key -> new ArrayList<>())
+                    .add(match.summary());
+
+            summariesByPlayer
+                    .computeIfAbsent(match.playerTwo().username(), key -> new ArrayList<>())
+                    .add(match.summary());
+        }
+        return summariesByPlayer;
+
+        // this is a much simpler and shorter way to do it even though yours is also right
 
 
     }
@@ -95,6 +114,11 @@ public class GameServerAnalytics {
          if (comparator.compare(first, second) >= 0){
              return first;
          } else return second;
+
+         // to make this shorter, you could use a ternary "?" operator
+        // it's the same thing but shorter
+        // Like this:
+        // return comparator.compare(first, second) >= 0 ? first : second;
     }
 
     public static String tierFor(PlayerAccount player) {
